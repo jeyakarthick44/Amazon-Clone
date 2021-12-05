@@ -3,15 +3,19 @@ import "./Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { Link } from "react-router-dom";
+import { useStateValue } from "./StateProvider";
 
 const Header = () => {
+
+  const [{ basket }] = useStateValue();
+
     return (
-        <div className="header">
+      <div className="header">
       <Link to="/">
         <img
           className="header__logo"
           src="http://pngimg.com/uploads/amazon/amazon_PNG11.png"
-        alt=""/>
+        />
       </Link>
 
       <div className="header__search">
@@ -20,10 +24,10 @@ const Header = () => {
       </div>
 
       <div className="header__nav">
-        <Link to='/'>
-          <div className="header__option">
-            <span className="header__optionLineOne">Login</span>
-            <span className="header__optionLineTwo">hi jk</span>
+        <Link to={!user && '/login'}>
+          <div onClick={handleAuthenticaton} className="header__option">
+            <span className="header__optionLineOne">Hello {!user ? 'Guest' : user.email}</span>
+            <span className="header__optionLineTwo">{user ? 'Sign Out' : 'Sign In'}</span>
           </div>
         </Link>
 
@@ -44,7 +48,7 @@ const Header = () => {
           <div className="header__optionBasket">
             <ShoppingBasketIcon />
             <span className="header__optionLineTwo header__basketCount">
-              {/* {basket?.length} */}
+              {basket?.length}
             </span>
           </div>
         </Link>
@@ -52,6 +56,5 @@ const Header = () => {
     </div>
   );
 }
-
 
 export default Header;
